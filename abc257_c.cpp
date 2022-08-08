@@ -72,14 +72,24 @@ const double PI  = acos(-1.0);
 int main(){
     int n; cin >> n;
     string s; cin >> s;
-    VI W(n); REP(i,n) cin >> W[i];
-    int ans = n;
-    int chMax = 0;
+    int a, ans = 0;
+    vector<pair<int, char>> w;
     REP(i,n){
-        if(s[i] == '0' && W[i] > chMax) chMax = W[i];
+        cin >> a;
+        w.PB({a,s[i]});
+        if(s[i] == '1') ans++;
     }
+    SORT(w);
+    int cnt = ans;
     REP(i,n){
-        if(s[i] == '1' && W[i] <= chMax) ans--;
+        if(w[i].second == '1') cnt--;
+        else cnt++;
+
+        if(i < (n-1)){
+            if(w[i].first != w[i+1].first) ans = max(ans,cnt);
+        }else{
+            ans = max(ans,cnt);
+        }
     }
 
     cout << ans << endl;
